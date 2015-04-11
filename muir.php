@@ -63,7 +63,7 @@ function muir_tab( $atts, $content = null ) {
 		$return = '<div id="tab' . $tabsnum . '" class="tab active">';
 	} else {
 		$return = '<div id="tab' . $tabsnum . '" class="tab">';
-	}  
+	}
 	$return = $return . do_shortcode($content) . '</div>';
    return $return;
 }
@@ -91,9 +91,18 @@ $current_url='http.//' . $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"];
 <!-- <a href="http://www.stumbleupon.com/submit?url=http://www.simplesharebuttons.com&title=Simple Share Buttons" target="_blank"><img src="http://www.simplesharebuttons.com/images/somacro/stumbleupon.png" alt="StumbleUpon" /></a> -->
 <!-- Email -->
 <a href="mailto:?Subject=Muir Lake Community Alliance Church&Body=I%20saw%20this%20and%20thought%20of%20you!%20 <?php echo $current_url?>"><img src="<?php echo plugins_url( 'muir-plugin/img/email.png' , dirname(__FILE__)); ?>" alt="Email" /></a>
-</div> 
+</div>
 
 <?php
+}
+
+function ml_postcontent( $atts ){
+	$a = shortcode_atts( array(
+		'id' => '',), $atts );
+	$post_id = $a['foo'];
+	$queried_post = get_post($post_id);
+	$title = $queried_post->post_title;
+	return do_shortcode($queried_post->post_content);
 }
 
 add_shortcode( 'social', 'muir_social' );
@@ -101,6 +110,8 @@ add_shortcode( 'reftag', 'custom_bibly' );
 add_shortcode( 'tabsinit', 'tabs_init' );
 add_shortcode( 'tabstitle', 'muir_tab_title' );
 add_shortcode( 'tabcontent', 'muir_tab' );
+
+add_shortcode( 'ml-post', 'ml_postcontent' );
 
 // Create the shortcode
 add_shortcode('latest-sermons', 'wpfc_display_latest_sermons_shortcode');
@@ -131,23 +142,23 @@ function wpfc_display_latest_sermons_shortcode($atts) {
         'orderby' => 'meta_value',
 		'paged' => $my_page,
 	);
-	
+
 	// If Post IDs
 	if( $id ) {
 		$posts_in = explode( ',', $id );
 		$args['post__in'] = $posts_in;
 	}
-	
+
 	// If taxonomy attributes, create a taxonomy query
 	if ( !empty( $taxonomy ) && !empty( $tax_term ) ) {
-	
+
 		// Term string to array
 		$tax_term = explode( ', ', $tax_term );
-		
+
 		// Validate operator
 		if( !in_array( $tax_operator, array( 'IN', 'NOT IN', 'AND' ) ) )
 			$tax_operator = 'IN';
-					
+
 		$tax_args = array(
 			'tax_query' => array(
 				array(
@@ -160,11 +171,11 @@ function wpfc_display_latest_sermons_shortcode($atts) {
 		);
 		$args = array_merge( $args, $tax_args );
 	}
-	
+
 	$listing = new WP_Query( $args, $atts ) ;
 	// Now that you've run the query, finish populating the object
 	ob_start(); ?>
-	
+
 	<?php
 	if ( !$listing->have_posts() )
 		return;
