@@ -110,7 +110,7 @@ add_shortcode( 'reftag', 'custom_bibly' );
 add_shortcode( 'tabsinit', 'tabs_init' );
 add_shortcode( 'tabstitle', 'muir_tab_title' );
 add_shortcode( 'tabcontent', 'muir_tab' );
-
+add_shortcode( 'post-content', 'ml_postcontent' );
 add_shortcode( 'ml-post', 'ml_postcontent' );
 
 // Create the shortcode
