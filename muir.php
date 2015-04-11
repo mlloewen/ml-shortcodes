@@ -1,0 +1,184 @@
+<?php
+/*
+Plugin Name: muir plugin
+Plugin URI: http://www.muirlakealliance.ca/
+Description: Various Shortcodes
+Author: Matthew Loewen
+Version: 1.0
+Author URI: http://www.mlplace.ca
+*/
+
+if ( ! defined( 'MP_PLUGIN_DIR' ) )
+	define( 'MP_PLUGIN_DIR', WP_PLUGIN_DIR . '/' . basename( dirname( __FILE__ ) ) . '/' );
+
+
+
+// Add Shortcode
+function custom_bibly() {
+	// Code
+return '<script async src="http://www.blueletterbible.org/scripts/blbToolTip/BLB_ScriptTagger-min.js" type="text/javascript"></script>
+<script type="text/javascript">
+BLB.Tagger.Translation = "ESV";
+BLB.Tagger.HyperLinks = "all";
+BLB.Tagger.HideTranslationAbbrev = false;
+BLB.Tagger.TargetNewWindow = true;
+BLB.Tagger.Style = "par";
+</script>';
+/*
+return '<script src="http://code.bib.ly/bibly.min.js"></script>
+<link href="http://code.bib.ly/bibly.min.css" rel="stylesheet" />
+*/
+}
+function tabs_init( $atts, $content = null ) {
+global $tabsnum;
+return '<link async rel="stylesheet" href="' . plugins_url( 'muir-plugin/css/sermonicons.css' , dirname(__FILE__)) . '" type="text/css" />
+<div class="tabs"><ul class="tab-links">' . do_shortcode($content) . '</div>';
+}
+
+function muir_tab_title( $atts, $content = null ) {
+	$a = shortcode_atts( array(
+		'title' => 'Summary',
+		'title2' => 'false',
+		'title3' => 'false',
+	), $atts );
+	$return ='<li class="active"><a href="#tab1"><span class="icon-summary"><div class="tab-title">' . esc_attr($a['title']) . '</div></span></a></li>';
+	if (esc_attr($a['title2']) !== 'false'){
+		$return = $return . '<li><a href="#tab2"><span class="icon-notes"><div class="tab-title">' . esc_attr($a['title2']) .'</div></span></a></li>';
+		if (esc_attr($a['title3']) !== 'false'){
+			$return = $return . '<li><a href="#tab3"><span class="icon-question"><div class="tab-title">' . esc_attr($a['title3']) .'</div></span></a></li>';
+	}
+	$return = $return . '</ul><div class="tab-content">' . do_shortcode($content) . '</div><div class="tabs"><ul class="tab-links">' . $return .'</ul></div>';
+   return $return;
+}
+}
+
+function muir_tab( $atts, $content = null ) {
+	global $tabsnum;
+	++$tabsnum;
+	$a = shortcode_atts( array(
+		'default' => 'false',
+	), $atts );
+	$return = esc_attr($a['active']);
+	if ($tabsnum == 1){
+		$return = '<div id="tab' . $tabsnum . '" class="tab active">';
+	} else {
+		$return = '<div id="tab' . $tabsnum . '" class="tab">';
+	}  
+	$return = $return . do_shortcode($content) . '</div>';
+   return $return;
+}
+
+function muir_social( $atts, $content = null ) {
+$current_url='http.//' . $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"];
+?>
+<!-- I got these buttons from simplesharebuttons.com -->
+<div id="share-buttons">
+<!-- Facebook -->
+<a href="https://www.facebook.com/sharer.php?u=<?php echo $current_url?>" target="_blank"><img src="<?php echo plugins_url( 'muir-plugin/img/facebook.png' , dirname(__FILE__)); ?>" alt="Facebook" /></a>
+<!-- Twitter -->
+<!-- <a href="http://twitter.com/share?url=<?php echo $current_url?>" target="_blank"><img src="http://www.simplesharebuttons.com/images/somacro/twitter.png" alt="Twitter" /></a> -->
+<!-- Google+ -->
+<a href="https://plus.google.com/share?url=<?php echo $current_url?>" target="_blank"><img src="<?php echo plugins_url( 'muir-plugin/img/google.png' , dirname(__FILE__)); ?>" alt="Google" /></a>
+<!-- Digg -->
+<!-- <a href="http://www.digg.com/submit?url=http://www.simplesharebuttons.com" target="_blank"><img src="http://www.simplesharebuttons.com/images/somacro/diggit.png" alt="Digg" /></a> -->
+<!-- Reddit -->
+<!-- <a href="http://reddit.com/submit?url=http://www.simplesharebuttons.com&title=Simple Share Buttons" target="_blank"><img src="http://www.simplesharebuttons.com/images/somacro/reddit.png" alt="Reddit" /></a> -->
+<!-- LinkedIn -->
+<!-- <a href="http://www.linkedin.com/shareArticle?mini=true&url=http://www.simplesharebuttons.com" target="_blank"><img src="http://www.simplesharebuttons.com/images/somacro/linkedin.png" alt="LinkedIn" /></a> -->
+<!-- Pinterest -->
+<!-- <a href="javascript:void((function()%7Bvar%20e=document.createElement('script');e.setAttribute('type','text/javascript');e.setAttribute('charset','UTF-8');e.setAttribute('src','http://assets.pinterest.com/js/pinmarklet.js?r='+Math.random()*99999999);document.body.appendChild(e)%7D)());"><img src="http://www.simplesharebuttons.com/images/somacro/pinterest.png" alt="Pinterest" /></a> -->
+<!-- StumbleUpon-->
+<!-- <a href="http://www.stumbleupon.com/submit?url=http://www.simplesharebuttons.com&title=Simple Share Buttons" target="_blank"><img src="http://www.simplesharebuttons.com/images/somacro/stumbleupon.png" alt="StumbleUpon" /></a> -->
+<!-- Email -->
+<a href="mailto:?Subject=Muir Lake Community Alliance Church&Body=I%20saw%20this%20and%20thought%20of%20you!%20 <?php echo $current_url?>"><img src="<?php echo plugins_url( 'muir-plugin/img/email.png' , dirname(__FILE__)); ?>" alt="Email" /></a>
+</div> 
+
+<?php
+}
+
+add_shortcode( 'social', 'muir_social' );
+add_shortcode( 'reftag', 'custom_bibly' );
+add_shortcode( 'tabsinit', 'tabs_init' );
+add_shortcode( 'tabstitle', 'muir_tab_title' );
+add_shortcode( 'tabcontent', 'muir_tab' );
+
+// Create the shortcode
+add_shortcode('latest-sermons', 'wpfc_display_latest_sermons_shortcode');
+function wpfc_display_latest_sermons_shortcode($atts) {
+
+	// Pull in shortcode attributes and set defaults
+	extract( shortcode_atts( array(
+		'id' => false,
+		'posts_per_page' => '10',
+		'order' => 'DESC',
+		'hide_nav' => false,
+		'taxonomy' => false,
+		'tax_term' => false,
+		'image_size' => 'sermon_small',
+		'tax_operator' => 'IN',
+		'before' => '',
+		'after' => '',
+		'class' => ''
+	), $atts, 'sermons' ) );
+
+	$args = array(
+		'post_type' => 'wpfc_sermon',
+		'posts_per_page' => $posts_per_page,
+		'order' => $order,
+		'meta_key' => 'sermon_date',
+        'meta_value' => date("m/d/Y"),
+        'meta_compare' => '>=',
+        'orderby' => 'meta_value',
+		'paged' => $my_page,
+	);
+	
+	// If Post IDs
+	if( $id ) {
+		$posts_in = explode( ',', $id );
+		$args['post__in'] = $posts_in;
+	}
+	
+	// If taxonomy attributes, create a taxonomy query
+	if ( !empty( $taxonomy ) && !empty( $tax_term ) ) {
+	
+		// Term string to array
+		$tax_term = explode( ', ', $tax_term );
+		
+		// Validate operator
+		if( !in_array( $tax_operator, array( 'IN', 'NOT IN', 'AND' ) ) )
+			$tax_operator = 'IN';
+					
+		$tax_args = array(
+			'tax_query' => array(
+				array(
+					'taxonomy' => $taxonomy,
+					'field' => 'slug',
+					'terms' => $tax_term,
+					'operator' => $tax_operator
+				)
+			)
+		);
+		$args = array_merge( $args, $tax_args );
+	}
+	
+	$listing = new WP_Query( $args, $atts ) ;
+	// Now that you've run the query, finish populating the object
+	ob_start(); ?>
+	
+	<?php
+	if ( !$listing->have_posts() )
+		return;
+	while ( $listing->have_posts() ): $listing->the_post(); global $post; ?>
+	<?php echo $before; ?>
+			<a class="<?php echo $class; ?>" href="<?php the_permalink(); ?>"><?php the_title(); ?></a>
+	<?php
+	echo $after;
+	endwhile; //end loop ?>
+		<span style="clear:both;"></span>
+			<?php wp_reset_postdata(); ?>
+	<?php
+	$buffer = ob_get_clean();
+	return $buffer;
+}
+
+?>
