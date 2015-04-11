@@ -99,7 +99,7 @@ $current_url='http.//' . $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"];
 function ml_postcontent( $atts ){
 	$a = shortcode_atts( array(
 		'id' => '',), $atts );
-	$post_id = $a['foo'];
+	$post_id = $a['id'];
 	$queried_post = get_post($post_id);
 	$title = $queried_post->post_title;
 	return do_shortcode($queried_post->post_content);
