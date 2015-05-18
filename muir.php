@@ -31,7 +31,7 @@ return '<script src="http://code.bib.ly/bibly.min.js"></script>
 }
 function tabs_init( $atts, $content = null ) {
 global $tabsnum;
-return '<link async rel="stylesheet" href="' . plugins_url( 'muir-plugin/css/sermonicons.css' , dirname(__FILE__)) . '" type="text/css" />
+return '<link async rel="stylesheet" href="' . plugins_url( 'ml-shortcodes/css/sermonicons.css' , dirname(__FILE__)) . '" type="text/css" />
 <div class="tabs"><ul class="tab-links">' . do_shortcode($content) . '</div>';
 }
 
@@ -74,11 +74,11 @@ $current_url='http.//' . $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"];
 <!-- I got these buttons from simplesharebuttons.com -->
 <div id="share-buttons">
 <!-- Facebook -->
-<a href="https://www.facebook.com/sharer.php?u=<?php echo $current_url?>" target="_blank"><img src="<?php echo plugins_url( 'muir-plugin/img/facebook.png' , dirname(__FILE__)); ?>" alt="Facebook" /></a>
+<a href="https://www.facebook.com/sharer.php?u=<?php echo $current_url?>" target="_blank"><img data-src="<?php echo plugins_url( 'ml-shortcodes/img/facebook.png' , dirname(__FILE__)); ?>" alt="Facebook" class="lazyload" data-expand="-1" /></a>
 <!-- Twitter -->
 <!-- <a href="http://twitter.com/share?url=<?php echo $current_url?>" target="_blank"><img src="http://www.simplesharebuttons.com/images/somacro/twitter.png" alt="Twitter" /></a> -->
 <!-- Google+ -->
-<a href="https://plus.google.com/share?url=<?php echo $current_url?>" target="_blank"><img src="<?php echo plugins_url( 'muir-plugin/img/google.png' , dirname(__FILE__)); ?>" alt="Google" /></a>
+<a href="https://plus.google.com/share?url=<?php echo $current_url?>" target="_blank"><img data-src="<?php echo plugins_url( 'ml-shortcodes/img/google.png' , dirname(__FILE__)); ?>" alt="Google" class="lazyload" data-expand="-1" /></a>
 <!-- Digg -->
 <!-- <a href="http://www.digg.com/submit?url=http://www.simplesharebuttons.com" target="_blank"><img src="http://www.simplesharebuttons.com/images/somacro/diggit.png" alt="Digg" /></a> -->
 <!-- Reddit -->
@@ -90,7 +90,7 @@ $current_url='http.//' . $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"];
 <!-- StumbleUpon-->
 <!-- <a href="http://www.stumbleupon.com/submit?url=http://www.simplesharebuttons.com&title=Simple Share Buttons" target="_blank"><img src="http://www.simplesharebuttons.com/images/somacro/stumbleupon.png" alt="StumbleUpon" /></a> -->
 <!-- Email -->
-<a href="mailto:?Subject=Muir Lake Community Alliance Church&Body=I%20saw%20this%20and%20thought%20of%20you!%20 <?php echo $current_url?>"><img src="<?php echo plugins_url( 'muir-plugin/img/email.png' , dirname(__FILE__)); ?>" alt="Email" /></a>
+<a href="mailto:?Subject=Muir Lake Community Alliance Church&Body=I%20saw%20this%20and%20thought%20of%20you!%20 <?php echo $current_url?>"><img data-src="<?php echo plugins_url( 'ml-shortcodes/img/email.png' , dirname(__FILE__)); ?>" alt="Email" class="lazyload" data-expand="-1" /></a>
 </div>
 
 <?php
