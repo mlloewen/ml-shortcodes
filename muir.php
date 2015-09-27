@@ -11,90 +11,12 @@ Author URI: http://www.mlplace.ca
 if ( ! defined( 'MP_PLUGIN_DIR' ) )
     define( 'MP_PLUGIN_DIR', WP_PLUGIN_DIR . '/' . basename( dirname( __FILE__ ) ) . '/' );
 
-
-
-// Add Shortcode
-function custom_bibly() {
-    // Code
-return '<script async src="http://www.blueletterbible.org/scripts/blbToolTip/BLB_ScriptTagger-min.js" type="text/javascript"></script>
-<script type="text/javascript">
-BLB.Tagger.Translation = "ESV";
-BLB.Tagger.HyperLinks = "all";
-BLB.Tagger.HideTranslationAbbrev = false;
-BLB.Tagger.TargetNewWindow = true;
-BLB.Tagger.Style = "par";
-</script>';
-/*
-return '<script src="http://code.bib.ly/bibly.min.js"></script>
-<link href="http://code.bib.ly/bibly.min.css" rel="stylesheet" />
-*/
-}
-function tabs_init( $atts, $content = null ) {
-global $tabsnum;
-return '<link async rel="stylesheet" href="' . plugins_url( 'ml-shortcodes/css/sermonicons.css' , dirname(__FILE__)) . '" type="text/css" />
-<div class="tabs"><ul class="tab-links">' . do_shortcode($content) . '</div>';
-}
-
-function muir_tab_title( $atts, $content = null ) {
-    $a = shortcode_atts( array(
-        'title' => 'Summary',
-        'title2' => 'false',
-        'title3' => 'false',
-    ), $atts );
-    $return ='<li class="active"><a href="#tab1"><span class="icon-summary"><div class="tab-title">' . esc_attr($a['title']) . '</div></span></a></li>';
-    if (esc_attr($a['title2']) !== 'false'){
-        $return = $return . '<li><a href="#tab2"><span class="icon-notes"><div class="tab-title">' . esc_attr($a['title2']) .'</div></span></a></li>';
-        if (esc_attr($a['title3']) !== 'false'){
-            $return = $return . '<li><a href="#tab3"><span class="icon-question"><div class="tab-title">' . esc_attr($a['title3']) .'</div></span></a></li>';
-    }
-    $return = $return . '</ul><div class="tab-content">' . do_shortcode($content) . '</div><div class="tabs"><ul class="tab-links">' . $return .'</ul></div>';
-   return $return;
-}
-}
-
-function muir_tab( $atts, $content = null ) {
-    global $tabsnum;
-    ++$tabsnum;
-    $a = shortcode_atts( array(
-        'default' => 'false',
-    ), $atts );
-    $return = esc_attr($a['active']);
-    if ($tabsnum == 1){
-        $return = '<div id="tab' . $tabsnum . '" class="tab active">';
-    } else {
-        $return = '<div id="tab' . $tabsnum . '" class="tab">';
-    }
-    $return = $return . do_shortcode($content) . '</div>';
-   return $return;
-}
-
-function muir_social( $atts, $content = null ) {
-$current_url='http.//' . $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"];
-?>
-<!-- I got these buttons from simplesharebuttons.com -->
-<div id="share-buttons">
-<!-- Facebook -->
-<a href="https://www.facebook.com/sharer.php?u=<?php echo $current_url?>" target="_blank"><img data-src="<?php echo plugins_url( 'ml-shortcodes/img/facebook.png' , dirname(__FILE__)); ?>" alt="Facebook" class="lazyload" data-expand="-1" /></a>
-<!-- Twitter -->
-<!-- <a href="http://twitter.com/share?url=<?php echo $current_url?>" target="_blank"><img src="http://www.simplesharebuttons.com/images/somacro/twitter.png" alt="Twitter" /></a> -->
-<!-- Google+ -->
-<a href="https://plus.google.com/share?url=<?php echo $current_url?>" target="_blank"><img data-src="<?php echo plugins_url( 'ml-shortcodes/img/google.png' , dirname(__FILE__)); ?>" alt="Google" class="lazyload" data-expand="-1" /></a>
-<!-- Digg -->
-<!-- <a href="http://www.digg.com/submit?url=http://www.simplesharebuttons.com" target="_blank"><img src="http://www.simplesharebuttons.com/images/somacro/diggit.png" alt="Digg" /></a> -->
-<!-- Reddit -->
-<!-- <a href="http://reddit.com/submit?url=http://www.simplesharebuttons.com&title=Simple Share Buttons" target="_blank"><img src="http://www.simplesharebuttons.com/images/somacro/reddit.png" alt="Reddit" /></a> -->
-<!-- LinkedIn -->
-<!-- <a href="http://www.linkedin.com/shareArticle?mini=true&url=http://www.simplesharebuttons.com" target="_blank"><img src="http://www.simplesharebuttons.com/images/somacro/linkedin.png" alt="LinkedIn" /></a> -->
-<!-- Pinterest -->
-<!-- <a href="javascript:void((function()%7Bvar%20e=document.createElement('script');e.setAttribute('type','text/javascript');e.setAttribute('charset','UTF-8');e.setAttribute('src','http://assets.pinterest.com/js/pinmarklet.js?r='+Math.random()*99999999);document.body.appendChild(e)%7D)());"><img src="http://www.simplesharebuttons.com/images/somacro/pinterest.png" alt="Pinterest" /></a> -->
-<!-- StumbleUpon-->
-<!-- <a href="http://www.stumbleupon.com/submit?url=http://www.simplesharebuttons.com&title=Simple Share Buttons" target="_blank"><img src="http://www.simplesharebuttons.com/images/somacro/stumbleupon.png" alt="StumbleUpon" /></a> -->
-<!-- Email -->
-<a href="mailto:?Subject=Muir Lake Community Alliance Church&Body=I%20saw%20this%20and%20thought%20of%20you!%20 <?php echo $current_url?>"><img data-src="<?php echo plugins_url( 'ml-shortcodes/img/email.png' , dirname(__FILE__)); ?>" alt="Email" class="lazyload" data-expand="-1" /></a>
-</div>
-
-<?php
-}
+// Bible Referance tagger  Use: [reftag]
+require_once( MP_PLUGIN_DIR . 'inc/reftag.php' );
+// Tabs Shortcodes
+require_once( MP_PLUGIN_DIR . 'inc/tabs.php' );
+// social links  [social]
+require_once( MP_PLUGIN_DIR . 'inc/social.php' );
 
 function ml_postcontent( $atts ){
     $a = shortcode_atts( array(
@@ -105,11 +27,6 @@ function ml_postcontent( $atts ){
     return do_shortcode(wpautop($queried_post->post_content));
 }
 
-add_shortcode( 'social', 'muir_social' );
-add_shortcode( 'reftag', 'custom_bibly' );
-add_shortcode( 'tabsinit', 'tabs_init' );
-add_shortcode( 'tabstitle', 'muir_tab_title' );
-add_shortcode( 'tabcontent', 'muir_tab' );
 add_shortcode( 'post-content', 'ml_postcontent' );
 add_shortcode( 'ml-post', 'ml_postcontent' );
 
