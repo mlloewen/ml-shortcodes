@@ -19,18 +19,9 @@ require_once( MP_PLUGIN_DIR . 'inc/tabs.php' );
 require_once( MP_PLUGIN_DIR . 'inc/social.php' );
 //  wysiwyg cutom buttons
 require_once( MP_PLUGIN_DIR . 'inc/paste-clean.php' );
+//  Post Content shortcode [ml-post id=2885]
+require_once( MP_PLUGIN_DIR . 'inc/post-content.php' );
 
-function ml_postcontent( $atts ){
-    $a = shortcode_atts( array(
-        'id' => '',), $atts );
-    $post_id = $a['id'];
-    $queried_post = get_post($post_id);
-    $title = $queried_post->post_title;
-    return do_shortcode(wpautop($queried_post->post_content));
-}
-
-add_shortcode( 'post-content', 'ml_postcontent' );
-add_shortcode( 'ml-post', 'ml_postcontent' );
 
 // Create the shortcode
 add_shortcode('latest-sermons', 'wpfc_display_latest_sermons_shortcode');
