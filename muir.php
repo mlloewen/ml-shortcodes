@@ -17,6 +17,8 @@ require_once( MP_PLUGIN_DIR . 'inc/reftag.php' );
 require_once( MP_PLUGIN_DIR . 'inc/tabs.php' );
 // social links  [social]
 require_once( MP_PLUGIN_DIR . 'inc/social.php' );
+//  wysiwyg cutom buttons
+require_once( MP_PLUGIN_DIR . 'inc/paste-clean.php' );
 
 function ml_postcontent( $atts ){
     $a = shortcode_atts( array(

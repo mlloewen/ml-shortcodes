@@ -2,7 +2,7 @@
 //$text = '<p 5ag>Verslo <strong><p f3jhk dasf>centrai</strong> Lietuvos <p>Nekilnojamojo turto plėtros</p> asociacijos konkurse ... </p>';
 
 $text = '<ol>
-    <li><span styl="">What insight, principle, or observation from this weekend’s message did you find to be most helpful, eye-opening, or troubling? Explain.</span></li>
+    <li><span styl="">What insight, principle, or observation from this weekends message did you find to be most helpful, eye-opening, or troubling? Explain.</span></li>
 </ol>
 &nbsp;
 
@@ -94,12 +94,12 @@ $text = '<ol>
 
 &nbsp;
 
-<span style="font-size: medium;"><strong>This Week’s Challenge:</strong></span>
+<span style="font-size: medium;"><strong>This Weeks Challenge:</strong></span>
 
 <span style="font-size: medium;"> Reflect on how busyness hinders your discipleship and the discipleship of others. Pray to God to help you through His Holy Spirit to overcome busyness this week. Then take time every day to be in with God in His Word and in prayer no matter how busy you are. At the e</span>';
-
-$text = preg_replace_callback('[<span>|<span\040[\pL\d\040\pZs\pP\pM=]+>|&nbsp;|</span>]', function ($matches) {
-    return ''; } , $text);
+var_dump($text);
+// $text = preg_replace_callback('[<span>|<span\040[\pL\d\040\pZs\pP\pM=]+>|&nbsp;|</span>]', function ($matches) {return ''; } , $text);
+$text=preg_replace('[<span>|<span\040[\pL\d\040\pZs\pP\pM=]+>|&nbsp;|</span>]', '', $text);
 var_dump($text);
 
 
