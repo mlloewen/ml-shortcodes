@@ -18,8 +18,8 @@ add_action('admin_head', 'custom_mce_button');
 function custom_tinymce_plugin( $plugin_array ) {
     $url = plugins_url()."/ml-shortcodes";
     $plugin_array['custom_mce_button'] = $url . '/editor_plugin.js';
-   // echo $url . '/editor_plugin.js';
-  return $plugin_array;
+    echo $url . '/editor_plugin.js';
+    return $plugin_array;
 }
 
 // Register new button in the editor
